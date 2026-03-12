@@ -3,7 +3,7 @@ import DashboardLayout from '../../components/DashboardLayout';
 import StatusBadge from '../../components/StatusBadge';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import { paymentsAPI } from '../../api/api';
-import { CreditCard, IndianRupee } from 'lucide-react';
+import { CreditCard, IndianRupee, TrendingUp } from 'lucide-react';
 
 export default function SellerPayments() {
   const [payments, setPayments] = useState([]);
@@ -20,51 +20,149 @@ export default function SellerPayments() {
 
   return (
     <DashboardLayout>
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-surface-800">Payments</h1>
-        <p className="text-surface-500 text-sm mt-1">Your payment history and earnings</p>
+      <div className="mb-10 animate-fade-in">
+        <h1 style={{ fontFamily: "'Bricolage Grotesque', sans-serif", fontSize: 28, fontWeight: 800, color: '#0E2016', letterSpacing: '-0.02em', marginBottom: 4 }}>
+          Payments & Earnings
+        </h1>
+        <p style={{ color: '#9B8F80', fontSize: 14 }}>Your payment history and total earnings</p>
       </div>
 
       {/* Total Earnings Card */}
-      <div className="glass-card p-6 mb-6 flex items-center gap-4" style={{ background: 'linear-gradient(135deg, rgba(16,185,129,0.08) 0%, rgba(59,130,246,0.05) 100%)' }}>
-        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center">
-          <IndianRupee size={24} className="text-white" />
+      <div
+        className="animate-fade-in-up mb-10"
+        style={{
+          borderRadius: 18,
+          background: 'linear-gradient(135deg, #10b981, #059669)',
+          padding: '32px 36px',
+          boxShadow: '0 12px 32px -6px rgba(16,185,129,0.35)',
+          display: 'flex',
+          alignItems: 'center',
+          gap: 28,
+        }}
+      >
+        <div
+          style={{
+            width: 64,
+            height: 64,
+            borderRadius: 16,
+            background: 'rgba(255,255,255,0.15)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backdropFilter: 'blur(4px)',
+            flexShrink: 0,
+          }}
+        >
+          <IndianRupee size={28} color="white" />
         </div>
         <div>
-          <p className="text-xs text-surface-500 font-medium uppercase tracking-wider">Total Earnings</p>
-          <p className="text-3xl font-bold text-surface-800">₹{total.toFixed(2)}</p>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+            <TrendingUp size={16} color="rgba(255,255,255,0.7)" />
+            <span style={{ fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,0.7)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+              Total Earnings
+            </span>
+          </div>
+          <p style={{ fontFamily: "'Bricolage Grotesque', sans-serif", fontSize: 40, fontWeight: 800, color: 'white', letterSpacing: '-0.02em' }}>
+            ₹{total.toFixed(2)}
+          </p>
         </div>
       </div>
 
+      {/* Payment History */}
       {loading ? (
         <LoadingSpinner />
       ) : payments.length === 0 ? (
-        <div className="glass-card p-12 text-center">
-          <CreditCard size={48} className="mx-auto text-surface-300 mb-4" />
-          <p className="text-surface-500">No payments yet</p>
+        <div
+          style={{
+            borderRadius: 18,
+            background: '#F8F5EE',
+            padding: '60px 40px',
+            textAlign: 'center',
+            boxShadow: '0 4px 16px rgba(0,0,0,0.06)',
+            border: '1px solid #E2D9CC',
+            animation: 'fade-in-up 0.6s ease-out both',
+          }}
+        >
+          <div
+            style={{
+              width: 80,
+              height: 80,
+              borderRadius: 16,
+              background: 'linear-gradient(135deg, rgba(16,185,129,0.1), rgba(52,211,153,0.1))',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              margin: '0 auto 20px',
+            }}
+          >
+            <CreditCard size={40} color="#9B8F80" />
+          </div>
+          <h3 style={{ fontFamily: "'Bricolage Grotesque', sans-serif", fontSize: 20, fontWeight: 700, color: '#0E2016', marginBottom: 8 }}>
+            No payments yet
+          </h3>
+          <p style={{ color: '#9B8F80', fontSize: 14 }}>
+            Your payment history will appear here once you complete pickups
+          </p>
         </div>
       ) : (
-        <div className="glass-card overflow-hidden">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b border-surface-100">
-                <th className="text-left p-4 font-semibold text-surface-600">Material</th>
-                <th className="text-left p-4 font-semibold text-surface-600">Amount</th>
-                <th className="text-left p-4 font-semibold text-surface-600">Status</th>
-                <th className="text-left p-4 font-semibold text-surface-600">Date</th>
-              </tr>
-            </thead>
-            <tbody>
-              {payments.map((p) => (
-                <tr key={p.id} className="border-b border-surface-50 hover:bg-surface-50/50 transition-colors">
-                  <td className="p-4 font-medium text-surface-800">{p.material_name}</td>
-                  <td className="p-4 font-bold text-surface-800">₹{parseFloat(p.amount).toFixed(2)}</td>
-                  <td className="p-4"><StatusBadge status={p.status} /></td>
-                  <td className="p-4 text-surface-500">{new Date(p.created_at).toLocaleDateString()}</td>
+        <div
+          className="animate-fade-in-up"
+          style={{
+            borderRadius: 18,
+            background: '#F8F5EE',
+            border: '1px solid #E2D9CC',
+            boxShadow: '0 4px 16px rgba(0,0,0,0.06)',
+            overflow: 'hidden',
+          }}
+        >
+          <div style={{ overflowX: 'auto' }}>
+            <table style={{ width: '100%', fontSize: 14, borderCollapse: 'collapse' }}>
+              <thead>
+                <tr style={{ borderBottom: '1.5px solid #E2D9CC' }}>
+                  <th style={{ textAlign: 'left', padding: '18px 24px', fontWeight: 700, color: '#5C5244', fontSize: 12, letterSpacing: '0.05em', textTransform: 'uppercase' }}>
+                    Material
+                  </th>
+                  <th style={{ textAlign: 'left', padding: '18px 24px', fontWeight: 700, color: '#5C5244', fontSize: 12, letterSpacing: '0.05em', textTransform: 'uppercase' }}>
+                    Amount
+                  </th>
+                  <th style={{ textAlign: 'left', padding: '18px 24px', fontWeight: 700, color: '#5C5244', fontSize: 12, letterSpacing: '0.05em', textTransform: 'uppercase', display: 'none' }}
+                      className="sm:table-cell">
+                    Status
+                  </th>
+                  <th style={{ textAlign: 'left', padding: '18px 24px', fontWeight: 700, color: '#5C5244', fontSize: 12, letterSpacing: '0.05em', textTransform: 'uppercase', display: 'none' }}
+                      className="sm:table-cell">
+                    Date
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {payments.map((p, i) => (
+                  <tr
+                    key={p.id}
+                    style={{
+                      borderBottom: i < payments.length - 1 ? '1px solid #EAE3D8' : 'none',
+                      transition: 'background 0.15s ease',
+                    }}
+                    onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(16,185,129,0.03)')}
+                    onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
+                  >
+                    <td style={{ padding: '16px 24px', fontWeight: 600, color: '#0E2016' }}>
+                      {p.material_name}
+                    </td>
+                    <td style={{ padding: '16px 24px', fontWeight: 700, color: '#34d399', fontSize: 15 }}>
+                      ₹{parseFloat(p.amount).toFixed(2)}
+                    </td>
+                    <td style={{ padding: '16px 24px', display: 'none' }} className="sm:table-cell">
+                      <StatusBadge status={p.status} />
+                    </td>
+                    <td style={{ padding: '16px 24px', color: '#9B8F80', fontSize: 13, display: 'none' }} className="sm:table-cell">
+                      {new Date(p.created_at).toLocaleDateString()}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
     </DashboardLayout>
